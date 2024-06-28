@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import logo from '../../img/logo.png';
+import logo from '../../assets/logo.png';
 import AuthContext from '../../utils/auth-context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

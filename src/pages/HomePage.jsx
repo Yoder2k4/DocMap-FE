@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import gif from '../img/doctorpatientgif.gif';
-import logo from '../img/logo.png';
+import gif from '../assets/doctorpatientgif.gif';
+import logo from '../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const HomePage = () => {
