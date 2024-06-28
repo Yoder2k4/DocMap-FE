@@ -1,0 +1,110 @@
+[
+	{
+		"name": "Bachelor of Medicine, Bachelor of Surgery (MBBS)",
+		"abbreviation": "MBBS"
+	},
+	{
+		"name": "Bachelor of Ayurveda, Medicine and Surgery (BAMS)",
+		"abbreviation": "BAMS"
+	},
+	{
+		"name": "Bachelor of Unani Medicine and Surgery (BUMS)",
+		"abbreviation": "BUMS"
+	},
+	{
+		"name": "Bachelor of Siddha Medicine and Surgery (BSMS)",
+		"abbreviation": "BSMS"
+	},
+	{
+		"name": "Bachelor of Homeopathic Medicine and Surgery (BHMS)",
+		"abbreviation": "BHMS"
+	},
+	{
+		"name": "Doctor of Medicine (MD)",
+		"abbreviation": "MD"
+	},
+	{
+		"name": "Master of Surgery (MS)",
+		"abbreviation": "MS"
+	},
+	{
+		"name": "Doctor of Medicine (Ayurveda) (MD (Ay))",
+		"abbreviation": "MD (Ay)"
+	},
+	{
+		"name": "Doctor of Medicine (Unani) (MD (Unani))",
+		"abbreviation": "MD (Unani)"
+	},
+	{
+		"name": "Doctor of Medicine (Siddha) (MD (Siddha))",
+		"abbreviation": "MD (Siddha)"
+	},
+	{
+		"name": "Doctor of Medicine (Homeopathy) (MD (Hom.))",
+		"abbreviation": "MD (Hom.)"
+	},
+	{
+		"name": "Master of Public Health (MPH)",
+		"abbreviation": "MPH"
+	},
+	{
+		"name": "Master of Hospital Administration (MHA)",
+		"abbreviation": "MHA"
+	},
+	{
+		"name": "Bachelor of Dental Surgery (BDS)",
+		"abbreviation": "BDS"
+	},
+	{
+		"name": "Master of Dental Surgery (MDS)",
+		"abbreviation": "MDS"
+	},
+	{
+		"name": "Bachelor of Pharmacy (B.Pharm)",
+		"abbreviation": "B.Pharm"
+	},
+	{
+		"name": "Master of Pharmacy (M.Pharm)",
+		"abbreviation": "M.Pharm"
+	},
+	{
+		"name": "Doctor of Pharmacy (Pharm.D)",
+		"abbreviation": "Pharm.D"
+	},
+	{
+		"name": "Bachelor of Physiotherapy (BPT)",
+		"abbreviation": "BPT"
+	},
+	{
+		"name": "Master of Physiotherapy (MPT)",
+		"abbreviation": "MPT"
+	},
+	{
+		"name": "Bachelor of Optometry (B.Optom)",
+		"abbreviation": "B.Optom"
+	},
+	{
+		"name": "Master of Optometry (M.Optom)",
+		"abbreviation": "M.Optom"
+	},
+	{
+		"name": "Bachelor of Nursing (B.Sc. Nursing)",
+		"abbreviation": "B.Sc. Nursing"
+	},
+	{
+		"name": "Master of Nursing (M.Sc. Nursing)",
+		"abbreviation": "M.Sc. Nursing"
+	},
+	{
+		"name": "Bachelor of Veterinary Science and Animal Husbandry (B.V.Sc. & A.H)",
+		"abbreviation": "B.V.Sc. & A.H"
+	},
+	{
+		"name": "Master of Veterinary Science (M.V.Sc.)",
+		"abbreviation": "M.V.Sc."
+	},
+	{
+		"name": "Doctor of Veterinary Science (Ph.D. Veterinary Science)",
+		"abbreviation": "Ph.D. Veterinary Science"
+	}
+]
