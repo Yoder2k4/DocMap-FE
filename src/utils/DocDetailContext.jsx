@@ -1,5 +1,5 @@
 import { createContext, useCallback, useState, useEffect } from 'react';
-const API_BASE = 'http://localhost:3001';
+import API_BASE from './api_url';
 
 const DocDetailContext = createContext({});
 

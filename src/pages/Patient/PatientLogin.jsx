@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../utils/api_url';
 
 const PatientLogin = (props) => {
 	const navigate = useNavigate();

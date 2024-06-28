@@ -5,7 +5,7 @@ import Social from './Social';
 import ClinicForm from '../../Forms/ClinicForm';
 import UploadImage from '../../Forms/UploadImage';
 import DocDetailContext from '../../../../utils/DocDetailContext';
-const BASE_URL = 'http://localhost:3001';
+import API_BASE from '../../../../utils/api_url';
 
 const EditProfile = () => {
 	const accID = localStorage.getItem('accID');
@@ -117,7 +117,7 @@ const EditProfile = () => {
 	const saveChangesBtnHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch(BASE_URL + `/doctor/${accID}`, {
+			const response = await fetch(API_BASE + `/doctor/${accID}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',

@@ -1,8 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ClinicForm from '../../components/doctor/Forms/ClinicForm';
-
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../utils/api_url';
 
 const DoctorLogin = (props) => {
 	const navigate = useNavigate();

@@ -1,8 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../../utils/api_url';
 
 const Sidenav = ({ changeSection }) => {
 	const navigate = useNavigate();

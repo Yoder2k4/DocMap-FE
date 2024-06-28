@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../../../utils/api_url';
 
 const CommentSection = ({ reviewPosted }) => {
 	const [starHover, setStarHover] = useState(0);

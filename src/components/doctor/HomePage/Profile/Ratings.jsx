@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../../../utils/api_url';
 
 const Ratings = () => {
 	const [ratings, setRatings] = useState([0, 0, 0, 0, 0]);

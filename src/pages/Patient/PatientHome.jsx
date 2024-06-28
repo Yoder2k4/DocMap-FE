@@ -3,8 +3,7 @@ import SearchBox from '../../components/patient/SearchBox';
 import MapContainer from '../../components/patient/MapContainer';
 import SuggestionsBox from '../../components/patient/SuggestionsBox';
 import ClinicTooltip from '../../components/patient/ClinicTooltip';
-
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../utils/api_url';
 
 const PatientHome = () => {
 	const [viewPort, setViewPort] = useState({

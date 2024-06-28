@@ -1,11 +1,11 @@
-import React, { Fragment, useCallback, useState, useContext } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
 import Profile from '../../components/doctor/HomePage/EditProfile/Profile';
 import UploadImage from '../../components/doctor/Forms/UploadImage';
 import Qualifications from '../../components/doctor/HomePage/EditProfile/Qualifications';
 import Social from '../../components/doctor/HomePage/EditProfile/Social';
 import ClinicForm from '../../components/doctor/Forms/ClinicForm';
 import { useNavigate } from 'react-router-dom';
-const BASE_URL = 'http://localhost:3001';
+import API_BASE from '../../utils/api_url';
 
 const DoctorDetailRegister = () => {
     const navigate = useNavigate();
@@ -141,7 +141,7 @@ const DoctorDetailRegister = () => {
 	const registerAccBtnHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch(BASE_URL + `/doctor/${userID}`, {
+			const response = await fetch(API_BASE + `/doctor/${userID}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

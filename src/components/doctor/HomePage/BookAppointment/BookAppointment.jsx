@@ -8,8 +8,7 @@ import React, {
 import { Datepicker, Dropdown } from 'flowbite-react';
 import DocDetailContext from '../../../../utils/DocDetailContext';
 import BookedComponent from './Booked';
-
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../../../utils/api_url';
 
 const BookAppointment = () => {
 	const { doctor } = useContext(DocDetailContext);

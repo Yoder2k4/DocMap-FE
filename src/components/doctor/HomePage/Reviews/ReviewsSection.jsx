@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-const API_BASE = 'http://localhost:3001';
+import API_BASE from '../../../../utils/api_url';
 
 const inISTFormat = (time) => {
 	const date = new Date(time);
