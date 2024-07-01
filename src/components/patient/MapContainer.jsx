@@ -4,7 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import MarkerIcon from './MarkerIcon';
 
 function MapContainer({ markerIndex, locInfo, viewPort, onviewPortChange, focusOnMarker }) {
-	const mapStyleUrl = `https://maps.geoapify.com/v1/styles/dark-matter-dark-grey/style.json?apiKey=${process.env.REACT_APP_MapApiKey}`;
+	const mapStyleUrl = `https://maps.geoapify.com/v1/styles/dark-matter-dark-grey/style.json?apiKey=fb1725b059fd44308deefe5ba3854e50`;
 	return (
 		<Map
 			{...viewPort}
