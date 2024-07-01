@@ -3,10 +3,8 @@ import Map, { Marker } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import MarkerIcon from './MarkerIcon';
 
-const apiKey = 'fb1725b059fd44308deefe5ba3854e50';
-
 function MapContainer({ markerIndex, locInfo, viewPort, onviewPortChange, focusOnMarker }) {
-	const mapStyleUrl = `https://maps.geoapify.com/v1/styles/dark-matter-dark-grey/style.json?apiKey=${apiKey}`;
+	const mapStyleUrl = `https://maps.geoapify.com/v1/styles/dark-matter-dark-grey/style.json?apiKey=${process.env.REACT_APP_MapApiKey}`;
 	return (
 		<Map
 			{...viewPort}

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import API_BASE from '../../../../utils/api_url';
+import axios from 'axios';
 
 const changeDateFormat = (date) => {
 	const dateObj = new Date(date);
@@ -27,20 +28,15 @@ const getDayFormat = (date) => {
 
 
 const Appointments = () => {
-	const accID = localStorage.getItem('accID');
 	const [appointments, setAppointments] = useState([]);
 	const getAllAppointmentsHandler = useCallback(async () => {
 		try {
-			const response = await fetch(`${API_BASE}/appointment/${accID}`);
-			if (!response.ok) {
-				console.log('Error in fetch request');
-			}
-			const data = await response.json();
-			setAppointments(data);
+			const response = await axios.get(API_BASE + '/appointment/allAppointments', {withCredentials: true});
+			setAppointments(response.data);
 		} catch (err) {
 			console.log(err);
 		}
-	}, [accID]);
+	}, []);
 
 	useEffect(() => {
 		getAllAppointmentsHandler();

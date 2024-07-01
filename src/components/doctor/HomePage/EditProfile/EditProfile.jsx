@@ -6,6 +6,7 @@ import ClinicForm from '../../Forms/ClinicForm';
 import UploadImage from '../../Forms/UploadImage';
 import DocDetailContext from '../../../../utils/DocDetailContext';
 import API_BASE from '../../../../utils/api_url';
+import axios from 'axios';
 
 const EditProfile = () => {
 	const accID = localStorage.getItem('accID');
@@ -117,17 +118,9 @@ const EditProfile = () => {
 	const saveChangesBtnHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch(API_BASE + `/doctor/${accID}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(info),
-			});
-			if (!response.ok) console.log('Error is response');
-			else {
-				updateDoctor(info);
-			}
+			await axios.put(API_BASE + '/doctor/doctorData', info, {withCredentials: true});
+			updateDoctor(info);
+			
 		} catch {
 			console.log('Error in fetch');
 		}

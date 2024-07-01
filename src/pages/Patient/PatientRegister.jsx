@@ -1,9 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_BASE from '../../utils/api_url';
+import axios from 'axios';
+import AuthContext from '../../utils/auth-context';
 
-const PatientRegister = (props) => {
+const PatientRegister = () => {
 	const navigate = useNavigate();
+	const { setIsLoggedIn, setUserID } = useContext(AuthContext);
 	const [data, setData] = useState({
 		email: '',
 		username: '',
@@ -13,26 +16,13 @@ const PatientRegister = (props) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch(API_BASE + '/patient/register', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
+			const res = await axios.post(API_BASE + '/patient/register', data, {
+				withCredentials: true,
 			});
-
-			if (response.ok) {
-				const user = await response.json();
-				const userID = user._id;
-				props.onLogin('patient');
-				navigate(`/patient/${userID}`);
-				const patientObj = {
-					email: data.email,
-					username: user.username,
-					patientID: userID,
-				};
-				localStorage.setItem('patientObj', JSON.stringify(patientObj));
-				console.log('Data submitted successfully');
+			if (res.data.success) {
+				setIsLoggedIn(1);
+				setUserID(res.data.userID);
+				navigate('/patient/home');
 			} else {
 				console.error('Error submitting data');
 			}

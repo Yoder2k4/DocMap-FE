@@ -6,10 +6,9 @@ import { useNavigate } from 'react-router-dom';
 const ClinicTooltip = ({ markerInfo }) => {
 	const navigate = useNavigate();
 	const checkDoctorProfileHandler = (e) => {
+		console.log(markerInfo);
 		e.preventDefault();
-		localStorage.setItem('userID', markerInfo.info.doctorID);
-		localStorage.setItem('accID', markerInfo.info._id);
-		navigate(`/doctor/${markerInfo.info.doctorID}`);
+		navigate('/doctor/profile', {state: {doctorID: markerInfo.info.doctorID}});
 	}
 	
 	return (

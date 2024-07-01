@@ -9,10 +9,8 @@ const SuggestionsBox = ({ suggestions, changeViewPort }) => {
 		changeViewPort(suggestion.lat, suggestion.lon);
 	};
 
-	const checkDoctorProfileHandler = (doctorID, accID) => {
-		localStorage.setItem('userID', doctorID);
-		localStorage.setItem('accID', accID);
-		navigate(`/doctor/${doctorID}`);
+	const checkDoctorProfileHandler = (doctorID) => {
+		navigate('/doctor/profile', {state: {doctorID}});
 	};
 
 	return (
@@ -26,7 +24,6 @@ const SuggestionsBox = ({ suggestions, changeViewPort }) => {
 							onClick={() =>
 								checkDoctorProfileHandler(
 									suggestion.info.doctorID,
-									suggestion.info._id,
 								)
 							}
 						>

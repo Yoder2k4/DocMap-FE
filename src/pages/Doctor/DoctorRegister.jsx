@@ -1,35 +1,24 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_BASE from '../../utils/api_url';
+import axios from 'axios';
+import AuthContext from '../../utils/auth-context';
 
-const DoctorRegister = (props) => {
+const DoctorRegister = () => {
 	const navigate = useNavigate();
 	const [data, setData] = useState({
 		email: '',
 		password: '',
 	});
+	const {setIsLoggedIn} = useContext(AuthContext);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch(API_BASE + '/doctor/register', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			});
-
-			if (response.ok) {
-				const user = await response.json();
-				const userID = user._id;
-				props.onLogin('doctor');
-				navigate(`/doctor/register/${userID}`);
-				localStorage.setItem('userID', userID);
-			} else {
-				console.error('Error submitting data');
-			}
+			await axios.post(API_BASE + '/doctor/register', data, {withCredentials: true});
+			setIsLoggedIn(2);
+			navigate('/doctor/details');
 		} catch (error) {
 			console.error('Error:', error);
 		}

@@ -1,13 +1,14 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import API_BASE from '../../../utils/api_url';
+import AuthContext from '../../../utils/auth-context';
+import axios from 'axios';
 
 const Sidenav = ({ changeSection }) => {
 	const navigate = useNavigate();
 	const [section, setSection] = useState(0);
-	const userID = localStorage.getItem('userID');
-	const loginStatus = localStorage.getItem('isLoggedIn');
+	const {isLoggedIn} = useContext(AuthContext);
 
 	useEffect(() => {
 		changeSection(section);
@@ -15,20 +16,11 @@ const Sidenav = ({ changeSection }) => {
 
 	const deleteAcc = async () => {
 		try {
-			const response = await fetch(`${API_BASE}/doctor/${userID}`, {
-				method: 'DELETE',
-			});
-
-			if (response.ok) {
-				localStorage.removeItem('userID');
-				localStorage.removeItem('accID');
-				localStorage.removeItem('isLoggedIn');
-				navigate('/');
-			} else {
-				console.log('Error in response');
-			}
-		} catch {
-			console.log('Some error deleting account');
+			await axios.delete(API_BASE + '/doctor/doctorData', {withCredentials: true});
+			await axios.get(API_BASE + '/logout', {withCredentials: true});
+			navigate('/', {replace: true});
+		} catch(err) {
+			console.log('Some error deleting account' + err.message);
 		}
 	};
 
@@ -120,7 +112,7 @@ const Sidenav = ({ changeSection }) => {
 								</span>
 							</span>
 						</li>
-						{loginStatus === '1' && (
+						{isLoggedIn === 2 && (
 							<Fragment>
 								<li onClick={() => setSection(2)} className="cursor-pointer">
 									<span
@@ -194,7 +186,7 @@ const Sidenav = ({ changeSection }) => {
 								</li>
 							</Fragment>
 						)}
-						{loginStatus === '2' && (
+						{isLoggedIn === 1 && (
 							<li onClick={() => setSection(4)} className="cursor-pointer">
 								<span
 									className={`flex items-center p-2 rounded-lg text-white group ${

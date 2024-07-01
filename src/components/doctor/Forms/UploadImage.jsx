@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import API_BASE from '../../../utils/api_url';
+import axios from 'axios';
 
 const UploadImage = ({ imgType, imgState, imageInfoChange }) => {
 	const [selectedFile, setSelectedFile] = useState(null);
@@ -19,23 +20,15 @@ const UploadImage = ({ imgType, imgState, imageInfoChange }) => {
 		formData.append('pfp', selectedFile); // 
 
 		try {
-			const response = await fetch(API_BASE + `/doctor/uploadImg`, {
-				method: 'POST',
-				body: formData,
+			const response = await axios.post(`${API_BASE}/doctor/uploadImg`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+				withCredentials: true
 			});
-
-			// same code using axios
-			// const response = await axios.post(`${API_BASE}/doctor/uploadImg`, formData, {
-			// 	headers: {
-			// 		'Content-Type': 'multipart/form-data',
-			// 	},
-			// });
-
-			if (response.ok) {
-				const data = await response.json();
-				console.log(data);
-				setImgData({ url: data.url, filename: data.filename });
-			}
+			const data = response.data;
+			console.log(data);
+			setImgData({ url: data.url, filename: data.filename });
 		} catch (error) {
 			console.error('Error uploading image:', error);
 		}

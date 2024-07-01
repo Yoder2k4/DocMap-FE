@@ -1,25 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import API_BASE from '../../../../utils/api_url';
+import DocDetailContext from '../../../../utils/DocDetailContext';
+import axios from 'axios';
 
 const Ratings = () => {
 	const [ratings, setRatings] = useState([0, 0, 0, 0, 0]);
 	const [totalRatings, setTotalRatings] = useState(0);
-	const accID = localStorage.getItem('accID');
+	const { doctor } = useContext(DocDetailContext);
 	const getRatings = useCallback(async () => {
 		try {
-			const res = await fetch(`${API_BASE}/review/${accID}`);
-			const data = await res.json();
+			const response = await axios.get(
+				API_BASE + '/review/' + doctor.doctorID,
+				{ withCredentials: true },
+			);
+			const data = response.data;
 			setTotalRatings(data.length);
 			const tempRating = [0, 0, 0, 0, 0];
 			data.forEach((review) => {
 				tempRating[review.rating - 1]++;
 			});
-			console.log(tempRating);
 			setRatings(tempRating);
 		} catch (err) {
 			console.log(err);
 		}
-	}, [accID]);
+	}, [doctor]);
 
 	useEffect(() => {
 		getRatings();
@@ -29,8 +33,8 @@ const Ratings = () => {
 			<div className="w-1/4 flex flex-col justify-center p-5">
 				<span className="font-bold text-7xl flex justify-center items-center">
 					{(
-						(ratings[0] + ratings[1] + ratings[2] + ratings[3] + ratings[4]) /
-						5
+						(ratings[0] + 2*ratings[1] + 3*ratings[2] + 4*ratings[3] + 5*ratings[4]) /
+						totalRatings
 					).toPrecision(2)}
 				</span>
 				<span className="font-bold flex justify-center items-center">

@@ -1,47 +1,30 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import API_BASE from '../../../../utils/api_url';
+import DocDetailContext from '../../../../utils/DocDetailContext';
+import axios from 'axios';
 
 const CommentSection = ({ reviewPosted }) => {
 	const [starHover, setStarHover] = useState(0);
 	const [starClick, setStarClick] = useState(0);
 	const [message, setMessage] = useState('');
 	const [comment, setComment] = useState('');
-	const patientObj = JSON.parse(localStorage.getItem('patientObj'));
-	const accID = localStorage.getItem('accID');
+	const {doctor} = useContext(DocDetailContext);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch(
-				`${API_BASE}/review/${patientObj.patientID}/${accID}`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						rating: starClick,
-						subject: message,
-						reviewBody: comment,
-						username: patientObj.username,
-						email: patientObj.email,
-					}),
-				},
-			);
-
-			if (!response.ok) {
-				console.log('Something in the backend went wrong!!');
-				return;
-			}
-			const data = await response.json();
-			reviewPosted(data._id);
-			console.log(data);
+			const response = await axios.post(API_BASE + '/review/'+ doctor.doctorID, {
+				rating: starClick,
+				subject: message,
+				reviewBody: comment,
+			}, {withCredentials: true});
+			reviewPosted(response.data._id);
 			setStarClick(0);
 			setStarHover(0);
 			setMessage('');
 			setComment('');
-		} catch {
-			console.log('Some error occured in fetch request!!');
+		} catch(err) {
+			console.log('Some error occured in fetch request!!', err.message);
 		}
 	};
 

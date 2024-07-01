@@ -9,11 +9,10 @@ import { Datepicker, Dropdown } from 'flowbite-react';
 import DocDetailContext from '../../../../utils/DocDetailContext';
 import BookedComponent from './Booked';
 import API_BASE from '../../../../utils/api_url';
+import axios from 'axios';
 
 const BookAppointment = () => {
 	const { doctor } = useContext(DocDetailContext);
-	const accID = localStorage.getItem('accID');
-	const patientObj = JSON.parse(localStorage.getItem('patientObj'));
 	const [booked, setBooked] = useState(false);
 	const [bookedData, setBookedData] = useState({});
 	const [selectedDate, setSelectedDate] = useState(new Date());
@@ -23,15 +22,8 @@ const BookAppointment = () => {
 
 	const checkBookedStatus = useCallback(async () => {
 		try {
-			const response = await fetch(
-				`${API_BASE}/appointment/${patientObj.patientID}/${accID}`,
-			);
-
-			if (!response.ok) {
-				console.log('Error in fetch request');
-			}
-
-			const data = await response.json();
+			const response = await axios.get(API_BASE + '/appointment/search/' + doctor.doctorID, {withCredentials: true});
+			const data = response.data;
 			if (data.length > 0) {
 				setBooked(true);
 				setBookedData(data[0]);
@@ -39,7 +31,7 @@ const BookAppointment = () => {
 		} catch (err) {
 			console.log(err);
 		}
-	}, [accID, patientObj]);
+	}, [doctor]);
 
 	useEffect(() => {
 		checkBookedStatus();
@@ -71,30 +63,13 @@ const BookAppointment = () => {
 		}
 
 		const sendData = {
-			username: patientObj.username,
-			email: patientObj.email,
 			clinic: doctor.clinics[selectedClinic].place,
 			timing: selectedTime,
 			date: selectedDate,
 		};
-
 		try {
-			const response = await fetch(
-				`${API_BASE}/appointment/${patientObj.patientID}/${accID}`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(sendData),
-				},
-			);
-
-			if (!response.ok) {
-				console.log('Error in fetch request');
-			}
-
-			const data = await response.json();
+			const response = await axios.post(API_BASE + '/appointment/book/' + doctor.doctorID, sendData, {withCredentials: true});
+			const data = response.data;
 			setBooked(true);
 			setBookedData(data);
 		} catch (err) {

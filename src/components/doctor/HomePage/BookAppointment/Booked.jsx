@@ -1,5 +1,6 @@
 import React from 'react';
 import API_BASE from '../../../../utils/api_url';
+import axios from 'axios';
 
 const BookedComponent = ({ data, changeBookStatus }) => {
 	const changeDateFormat = (date) => {
@@ -13,16 +14,7 @@ const BookedComponent = ({ data, changeBookStatus }) => {
 
 	const cancelAppointmentHandler = async (appID) => {
 		try {
-			const response = await fetch(`${API_BASE}/appointment/cancel/${appID}`, {
-				method: 'DELETE',
-			});
-
-			if (!response.ok) {
-				console.log('Error in fetch request');
-			}
-
-			const data = await response.json();
-			console.log(data);
+			await axios.delete(API_BASE + '/appointment/cancel/' + appID, {withCredentials: true});
 			changeBookStatus();
 		} catch (err) {
 			console.log(err);

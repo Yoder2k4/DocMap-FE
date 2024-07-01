@@ -4,6 +4,7 @@ import MapContainer from '../../components/patient/MapContainer';
 import SuggestionsBox from '../../components/patient/SuggestionsBox';
 import ClinicTooltip from '../../components/patient/ClinicTooltip';
 import API_BASE from '../../utils/api_url';
+import axios from 'axios';
 
 const PatientHome = () => {
 	const [viewPort, setViewPort] = useState({
@@ -17,16 +18,15 @@ const PatientHome = () => {
 	const [suggestions, setSuggestions] = useState([]);
 	const [markerIndex, setMarkerIndex] = useState(-1);
 
-	// Get doctors list from server
 	const getLocations = useCallback(async () => {
-		const response = await fetch(API_BASE + '/patient/user');
-
-		if (!response.ok) {
-			console.log(`Something went wrong in ${API_BASE} + '/patient/user'`);
+		try {
+			const res = await axios.get(API_BASE + '/patient/user', {withCredentials: true});
+			console.log(res.data);
+			setdoctorData(res.data);
+		} catch (error) {
+			console.log(error.message);
 		}
-
-		const data = await response.json();
-		setdoctorData(data);
+		
 	}, []);
 	useEffect(() => {
 		getLocations();

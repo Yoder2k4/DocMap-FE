@@ -1,6 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import API_BASE from '../../../../utils/api_url';
+import DocDetailContext from '../../../../utils/DocDetailContext';
+import axios from 'axios';
+import AuthContext from '../../../../utils/auth-context';
 
 const inISTFormat = (time) => {
 	const date = new Date(time);
@@ -11,25 +14,25 @@ const inISTFormat = (time) => {
 
 const ReviewSection = ({ renderer }) => {
 	const [reviews, setReviews] = useState([]);
-	const accID = localStorage.getItem('accID');
-	const patientObj = JSON.parse(localStorage.getItem('patientObj'));
+	const { doctor } = useContext(DocDetailContext);
+	const { isLoggedIn, userID } = useContext(AuthContext);
 
 	const getReviews = useCallback(async () => {
 		try {
-			const response = await fetch(`${API_BASE}/review/${accID}`);
-			if (!response.ok) {
-				console.log('Something went wrong!!');
-				return;
-			}
-			const data = await response.json();
+			console.log(doctor);
+			const response = await axios.get(
+				`${API_BASE}/review/${doctor.doctorID}`,
+				{ withCredentials: true },
+			);
+			let data = response.data;
 			data.sort((a, b) => {
 				return new Date(b.time) - new Date(a.time);
 			});
 			setReviews(data);
 		} catch (error) {
-			console.error('Fetch Error:', error);
+			console.error('Fetch Error:', error.message);
 		}
-	}, [accID]);
+	}, [doctor]);
 
 	useEffect(() => {
 		getReviews();
@@ -37,13 +40,9 @@ const ReviewSection = ({ renderer }) => {
 
 	const deleteComment = async (id) => {
 		try {
-			const response = await fetch(`${API_BASE}/review/delete/${id}`, {
-				method: 'DELETE',
+			await axios.delete(`${API_BASE}/review/delete/${id}`, {
+				withCredentials: true,
 			});
-			if (!response.ok) {
-				console.log('Something went wrong!!');
-				return;
-			}
 			getReviews();
 		} catch (error) {
 			console.error('Fetch Error:', error);
@@ -53,7 +52,7 @@ const ReviewSection = ({ renderer }) => {
 	return (
 		<div
 			className={
-				(patientObj ? 'h-[45vh] ' : 'h-[84vh] ') +
+				(isLoggedIn === 1 ? 'h-[45vh] ' : 'h-[84vh] ') +
 				'px-3 pt-2 w-full overflow-y-scroll no-scrollbar divide-y-2 divide-solid divide-gray-900'
 			}
 		>
@@ -74,7 +73,7 @@ const ReviewSection = ({ renderer }) => {
 									</span>
 								</p>
 							</div>
-							{patientObj && patientObj.patientID === review.author && (
+							{userID && userID === review.author && (
 								<div
 									className="text-gray-400 hover:text-white cursor-pointer"
 									onClick={() => deleteComment(review._id)}

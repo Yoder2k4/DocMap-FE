@@ -6,10 +6,10 @@ import Social from '../../components/doctor/HomePage/EditProfile/Social';
 import ClinicForm from '../../components/doctor/Forms/ClinicForm';
 import { useNavigate } from 'react-router-dom';
 import API_BASE from '../../utils/api_url';
+import axios from 'axios';
 
 const DoctorDetailRegister = () => {
     const navigate = useNavigate();
-    const userID = localStorage.getItem('userID');
 	const [editMenu, setEditMenu] = useState('profile');
 	const [info, setInfo] = useState({
 		name: '',
@@ -141,22 +141,10 @@ const DoctorDetailRegister = () => {
 	const registerAccBtnHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await fetch(API_BASE + `/doctor/${userID}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(info),
-			});
-
-			if (!response.ok) console.log('Error is response');
-            else {
-                const data = await response.json();
-                localStorage.setItem('accID', data._id);
-				navigate(`/doctor/${userID}`);
-            }
-		} catch {
-			console.log('Error in fetch');
+			await axios.post(API_BASE + '/doctor/doctorData', info, {withCredentials: true});
+			navigate('/doctor/profile');
+        } catch {
+			console.log('Error in post request');
 		}
 	};
 

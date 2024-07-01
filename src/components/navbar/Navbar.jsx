@@ -1,10 +1,9 @@
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import {
 	Link,
 	Outlet,
 	useLocation,
 	useNavigate,
-	useParams,
 } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -17,13 +16,11 @@ const navigation = [
 		name: 'Doctor',
 		href: '/doctor/register',
 		icon: 'fa-solid fa-stethoscope',
-		current: false,
 	},
 	{
 		name: 'Patient',
 		href: '/patient/register',
 		icon: 'fa-solid fa-user',
-		current: false,
 	},
 ];
 
@@ -31,67 +28,38 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
 
-export default function Navbar(props) {
+export default function Navbar() {
 	const navigate = useNavigate();
-	const ctx = useContext(AuthContext);
-	const { userID } = useParams();
+	const location = useLocation();
+	const {isLoggedIn, logoutHandler} = useContext(AuthContext);
 	const routeLocation = useLocation();
-	const [current, setCurrent] = useState({ Doctor: false, Patient: false });
-	const loginStatus = localStorage.getItem('isLoggedIn');
+	const [current, setCurrent] = useState(-1);
 
-	const changeCurrentHandler = (item) => {
-		setCurrent((prevData) => {
-			const newData = prevData;
-			for (const key in newData) {
-				if (key === item) {
-					newData[key] = true;
-				} else {
-					newData[key] = false;
-				}
-			}
-			return newData;
-		});
+	const changeCurrentHandler = (index) => {
+		setCurrent(index);
 	};
 
-	const toHomePage = () => {
-		// setCurrent((prevData) => {
-		// 	const newData = prevData;
-		// 	for (const key in newData) {
-		// 		if (Object.hasOwnProperty.call(newData, key)) {
-		// 			newData[key] = false;
-		// 		}
-		// 	}
-		// 	return newData;
-		// });
-		navigate(`/`);
-	};
-
-	const backBtnHandler = () => {
-		
-		navigate(-1);
-		// setCurrent((prevData) => {
-		// 	const newData = prevData;
-		// 	for (const key in newData) newData[key] = false;
-		// 	return newData;
-		// })
-		if (loginStatus === '2') {
-			localStorage.removeItem('userID');
-			localStorage.removeItem('accID');
+	useEffect(() => {
+		if(!isLoggedIn) {
+			const path = location.pathname.split('/');
+			if(path[1]==='patient') setCurrent(1);
+			else if(path[1]==='doctor') setCurrent(0);
+			else setCurrent(-1);
 		}
-	};
+	}, [location, isLoggedIn])
 
 	let styleClass = 'bg-gray-800 top-0 left-0 right-0';
-	if (userID && routeLocation.pathname === `/patient/${userID}`) {
+	if (routeLocation.pathname === '/patient') {
 		styleClass = 'w-full z-10 bg-gray-950 backdrop-filter backdrop-blur-sm';
 	}
 
 	const logoutBtnhandler = () => {
-		props.onLogout();
+		logoutHandler();
 		navigate(`/`);
 	};
 
 	const LoginConfigure = ({ isLogin }) => {
-		if (isLogin !== '') {
+		if (isLogin) {
 			return (
 				<Menu as="div" className="relative ml-3">
 					<div>
@@ -169,27 +137,27 @@ export default function Navbar(props) {
 								<div className="flex items-center justify-start">
 									<span
 										className="mr-8 bg-gray-100 text-gray-900 rounded-full w-10 h-10 flex justify-center items-center hover:bg-gray-800 hover:text-white cursor-pointer transition duration-150"
-										onClick={backBtnHandler}
+										onClick={() => navigate(-1)}
 									>
 										<FontAwesomeIcon icon="fa-solid fa-arrow-left" />
 									</span>
-									{loginStatus !== '1' && loginStatus !== '2' && (
+									{!isLoggedIn && (
 										<Fragment>
 											<span className="pr-4 font-medium">Register</span>
 											<div className="flex bg-gray-700 rounded-md">
-												{navigation.map((item) => (
+												{navigation.map((item, index) => (
 													<Link
 														key={item.name}
 														to={item.href}
 														onClick={() => changeCurrentHandler(item.name)}
 														className={classNames(
-															current[item.name]
+															current===index
 																? 'bg-gray-900 text-white'
 																: 'text-gray-300 hover:bg-gray-900 hover:text-white',
 															'rounded-md px-3 py-2 text-sm font-medium flex justify-between',
 														)}
 														aria-current={
-															current[item.name] ? 'page' : undefined
+															current===index ? 'page' : undefined
 														}
 													>
 														<FontAwesomeIcon
@@ -206,11 +174,11 @@ export default function Navbar(props) {
 								</div>
 
 								<div className="flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-									<LoginConfigure isLogin={ctx.isLoggedIn} />
+									<LoginConfigure isLogin={isLoggedIn} />
 								</div>
 								<div
 									className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-shrink-0 items-center cursor-pointer"
-									onClick={toHomePage}
+									onClick={() => navigate(`/`)}
 								>
 									<span className="self-center text-3xl px-2 font-semibold whitespace-nowrap text-white">
 										Doc
