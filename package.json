@@ -31,7 +31,7 @@
     "react-autosuggest": "^10.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
-    "react-map-gl": "^7.1.6",
+    "react-map-gl": "^7.1.7",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
@@ -49,11 +49,7 @@
     ]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": ["last 1 firefox version", "last 1 chrome version"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
