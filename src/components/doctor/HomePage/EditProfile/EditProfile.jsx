@@ -9,7 +9,6 @@ import API_BASE from '../../../../utils/api_url';
 import axios from 'axios';
 
 const EditProfile = () => {
-	const accID = localStorage.getItem('accID');
 	const { doctor, updateDoctor } = useContext(DocDetailContext);
 	const [editMenu, setEditMenu] = useState('profile');
 	const [info, setInfo] = useState(doctor);
